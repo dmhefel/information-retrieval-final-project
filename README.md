@@ -3,7 +3,9 @@
 ***Dependencies
 
 Download Package gensim 
+
 pip install gensim
+
 pip install -U sentence-transformers
 ***Data
 
