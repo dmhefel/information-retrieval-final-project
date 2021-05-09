@@ -1,5 +1,5 @@
 from pathlib import Path
-import json
+import json, jsonlines
 import numpy as np
 from sentence_transformers import SentenceTransformer
 model = SentenceTransformer('msmarco-distilbert-base-v3') #encoder for sbert
@@ -173,51 +173,72 @@ original_embedding = np.asarray(original_embedding)
 averaged_embedding = averaged_embedding-original_embedding
 print("Averaged - original embedding: ", averaged_embedding)
 
-# def load_wapo(wapo_jl_path):
-#     """
-#     It should be similar to the load_wapo in HW3 with two changes:
-#     - for each yielded document dict, use "doc_id" instead of "id" as the key to store the document id.
-#     - convert the value of "published_date" to a readable format e.g. 2021/3/15. You may consider using python datatime package to do this.
-#     """
-#     # open the jsonline file
-#     with open(wapo_jl_path) as f:
-#         # get line
-#         line = f.readline()
-#         # id number
-#         id = 0
-#         # while line not empty
-#         while line:
-#             # load line as json
-#             article = json.loads(line)
-#             # process content by getting each sanitized html sentence and adding to list.
-#             # content = []
-#             # for sentence in article['contents']:
-#             #     if sentence is not None and 'content' in sentence and sentence['type'] == 'sanitized_html':
-#             #         content.append(sentence['content'])
-#             # # turn list of sentences into one string
-#             # content = ' '.join(content)
-#             # # use regex to get rid of html elements
-#             # content = re.sub('<[^<]+?>', '', content)
-#             #process date
-#             #dateinfo = dt.fromtimestamp(article['published_date'] / 1000)
-#             #date = str(dateinfo.year) + "/" + str(dateinfo.month) + "/" + str(dateinfo.day)
-#
-#             date = article['published_date']
-#             # create dict for the article
-#             articledict = {'id': id,
-#                            'title': article["title"] if article['title'] is not None else '',
-#                            "author": article["author"] if article['author'] is not None else '',
-#                            "published_date": date,
-#                            "content_str": article['content_str']}
-#             # increment id #
-#             id += 1
-#             # get next line
-#             line = f.readline()
-#             # yield the dictionary (generator object)
-#             yield articledict
-#
-#
-#
+def load_wapo(wapo_jl_path):
+    """
+    It should be similar to the load_wapo in HW3 with two changes:
+    - for each yielded document dict, use "doc_id" instead of "id" as the key to store the document id.
+    - convert the value of "published_date" to a readable format e.g. 2021/3/15. You may consider using python datatime package to do this.
+    """
+    # open the jsonline file
+    with open(wapo_jl_path) as f:
+        # get line
+        line = f.readline()
+        # id number
+        id = 0
+        # while line not empty
+        while line:
+            # load line as json
+            article = json.loads(line)
+            # process content by getting each sanitized html sentence and adding to list.
+            # content = []
+            # for sentence in article['contents']:
+            #     if sentence is not None and 'content' in sentence and sentence['type'] == 'sanitized_html':
+            #         content.append(sentence['content'])
+            # # turn list of sentences into one string
+            # content = ' '.join(content)
+            # # use regex to get rid of html elements
+            # content = re.sub('<[^<]+?>', '', content)
+            #process date
+            #dateinfo = dt.fromtimestamp(article['published_date'] / 1000)
+            #date = str(dateinfo.year) + "/" + str(dateinfo.month) + "/" + str(dateinfo.day)
+
+            date = article['published_date']
+            # create dict for the article
+            articledict = {'id': id,
+                           'title': article["title"] if article['title'] is not None else '',
+                           "author": article["author"] if article['author'] is not None else '',
+                           "published_date": date,
+                           "content_str": article['content_str'],
+                           "annotation": article['annotation'],
+                           "sbert_vector": article['sbert_vector'], #do we need?
+                           #"ft_vector": article['ft_vector'], #do we need?
+                           }
+            # increment id #
+            id += 1
+            # get next line
+            line = f.readline()
+            # yield the dictionary (generator object)
+            yield articledict
+with jsonlines.open('data/with_avg_sbert', mode='a') as writer:
+
+    data_dir = Path("data")
+    wapo_path = data_dir.joinpath('subset_wapo_50k_sbert_ft_filtered.jl')
+    wapo = load_wapo(wapo_path)
+    article = next(wapo, '')
+    while article:
+        chunked_text = chunk_text(doc1)
+        embeddings = model.encode(chunked_text)
+        averaged_embedding = embeddings[0]
+        if len(embeddings) > 1:
+            for i in range(1, len(embeddings)):
+                averaged_embedding += embeddings[i]
+        # print(averaged_embedding)
+        averaged_embedding = averaged_embedding / len(embeddings)
+        article['new_sbert'] = averaged_embedding.tolist()
+        writer.write(article)
+        print(article['title'])
+        article = next(wapo, '')
+
 # data_dir = Path("data")
 # wapo_path = data_dir.joinpath("50k.jl")
 # documents = [doc['content_str'] for doc in load_wapo(wapo_path)]
