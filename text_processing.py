@@ -64,11 +64,8 @@ class TextProcessing:
             contentlist = word_tokenize(content)
         else:
             contentlist = [""]
+        contentlist = contentlist.extend(titlelist)
         normalizedtokens = []
-        for i in range(len(titlelist)):
-            token = self.normalize(titlelist[i])
-            if token != "":
-                normalizedtokens.append(token)
         for i in range(len(contentlist)):
             token = (self.normalize(contentlist[i]))
             if token != "":
