@@ -1,5 +1,5 @@
 import math
-
+from text_processing import TextProcessing
     @staticmethod
     def idf(N: int, df: int) -> float:
         """
@@ -23,6 +23,18 @@ import math
             return 0.0
 
 
+
+    def removestopwords(termshelf,docshelf,tfidfscore):
+    	text_processor = TextProcessing.from_nltk()
+    	for k,v in docshelf.items():
+    		tokens = v.split()
+    		for token in tokens:
+    			temptoken=text_processor.normalize(token)
+    			if termshelf[temptoken]>tfidfscore:
+    				tokens.remove(token)
+    		tokens=" ".join(tokens)
+    		docshelf[k]=tokens
+
 for document in docs:
     docid = document["doc_id"]
     tokens = text_processor.get_normalized_tokens(document["title"], document["content"])
@@ -43,3 +55,5 @@ for document in docs:
             postingdict[k].append((docid, termfreq))
         else:
             postingdict[k] = [(docid, termfreq)]
+
+
