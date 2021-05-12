@@ -24,14 +24,14 @@ from text_processing import TextProcessing
 
 
 
-    def removestopwords(termshelf,doc,tfidfscore):
+    def removestopwords(df_counter,doc_tf_dict,doc_id,content,tfidfscore):
     	text_processor = TextProcessing.from_nltk()
-    	tokens = v.split()
+    	tokens = content.split()
     	for i in range(len(tokens)-1,-1,-1):
    			token=tokens[i]
     		temptoken=text_processor.normalize(token)
-    		idfscore=idf(50000,len(termshelf[temptoken]))
-    		currenttfidfscore=idfscore*termshelf[temptoken][1]
+    		idfscore=idf(len(doc_tf_dict),df_counter[temptoken])
+    		currenttfidfscore=idfscore*doc_tf_dict[doc_id][temptoken]
     		if currenttfidfscore<tfidfscore:
     			tokens.pop(i)
     	tokens=" ".join(tokens)
