@@ -311,3 +311,17 @@ with jsonlines.open('data/with_avg_sbert', mode='a') as writer:
 #
 # # to find vector of doc in training data using tags or in other words, printing the vector of document at index 1 in training data
 # print(model.dv['1'])
+
+#combining original docs with new vectors
+with jsonlines.open('data/with_doc2vec.jl', mode='a') as writer:
+    id = 0
+    data_dir = Path("data")
+    wapo_path = data_dir.joinpath('subset_wapo_50k_sbert_ft_filtered.jl')
+    wapo = load_wapo(wapo_path)
+    article = next(wapo, '')
+    while article:
+        article['doc2vec'] = model.dv[str(id)].tolist()
+        writer.write(article)
+        print(id, article['title'])
+        id+=1
+        article = next(wapo, '')
