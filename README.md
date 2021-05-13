@@ -97,11 +97,11 @@ build a new index with the edited documents, which  allowed  us  to use BM25+Cus
 average precision, and ndcg scores with our original results.
 #### Daniel: 
 Wrote and trained the doc2vec and sbert approaches and their evaluation file. List of .py files written by Daniel:
-utils.py
-sbert.py
-doc2vec.py
-query.py
-One version of doc_template.py and index.py
+* utils.py
+* sbert.py
+* doc2vec.py
+* query.py
+* One version of doc_template.py and index.py
 All files located in the eponymous zip file
 
 
