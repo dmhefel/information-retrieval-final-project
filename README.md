@@ -20,14 +20,14 @@ The word "new" in the description is defined as occurring in the 1990s. Document
 ## Queries:
  ### From TREC XML 
  
- Title
- Description
- Narrative
+ * Title
+ * Description
+ * Narrative
  
  ### User Queries:
- Scientific Discovery 
- Scientific Discovery patent 
- Scientific Discovery not astronomy
+ * Scientific Discovery 
+ * Scientific Discovery patent 
+ * Scientific Discovery not astronomy
  
 =========================
 # Summary: 
