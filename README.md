@@ -73,10 +73,10 @@ The Word2Vec, retraining of SBERT and 2-tier search system required the use of s
 ### SBERT
 
 ### 2-Tier Search System 
-*Base code references hw5: 
-*Run the elasticsearch server on the terminal
-*Build the wapo_50k_index by reading the 50k json file
-*Call the evaluate.py file, which applies the bm25 custom analyzer against the user query, and ignores all of the results found in a query composed of the original *text plus the word "astronomy"
+* Base code references hw5: 
+* Run the elasticsearch server on the terminal
+* Build the wapo_50k_index by reading the 50k json file
+* Call the evaluate.py file, which applies the bm25 custom analyzer against the user query, and ignores all of the results found in a query composed of the original * text plus the word "astronomy"
 
 ### tfidf
 Create a dictionary for tf per doc and another one for corpus_tf by running the tfidf.py file. This took about 17 minutes to build locally. 
