@@ -94,11 +94,11 @@ Create a dictionary for tf per doc and another one for corpus_tf by running the 
 
 #### Daniel: 
 Wrote and trained the doc2vec and sbert approaches and their evaluation file. List of .py files written by Daniel:
-utils.py
-sbert.py
-doc2vec.py
-query.py
-One version of doc_template.py and index.py
+* utils.py
+* sbert.py
+* doc2vec.py
+* query.py
+* One version of doc_template.py and index.py
 All files located in the eponymous zip file
 
 
