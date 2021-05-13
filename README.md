@@ -33,7 +33,7 @@ The word "new" in the description is defined as occurring in the 1990s. Document
 # Summary: 
 We took several approaches to the document retrieval task:
 
-SBERT doesn't process the full article, but rather takes the first 500 or so words. This means that if relevant information is at the end of the document, it is not included. To see if processing the full article would make a difference, the article is segmented into portions, vectors created for each portion, and then the embeddings are averaged among portions.
+SBERT doesn't process the full article, but rather takes the first 500 or so words. This means that if relevant information is at the end of the document, it is truncated and not included. To see if processing the full article would make a difference, the article is segmented into portions, vectors created for each portion, and then the embeddings are averaged among portions.
 
  We also trained a doc2vec model on the corpus to create document vectors that could be used for retrieval.
 
