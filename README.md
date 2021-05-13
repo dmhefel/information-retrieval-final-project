@@ -91,7 +91,10 @@ Create a dictionary for tf per doc and another one for corpus_tf by running the 
 # Team member contributions:
 
 #### Ryan:
-
+Wrote the code that will calculate the tfidf score for every document and then remove the terms from all the documents that dont meet 
+the specified threshold. Then created a new jsonline file with the new  edited documents so that the elasticsearch could 
+build a new index with the edited documents, which  allowed  us  to use BM25+Custom on the edited documents to compare precision,
+average precision, and ndcg scores with our original results.
 #### Daniel: 
 Wrote and trained the doc2vec and sbert approaches and their evaluation file. List of .py files written by Daniel:
 utils.py
