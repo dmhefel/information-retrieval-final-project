@@ -38,8 +38,14 @@ def search(index: str, query: Query, k: int, query_text: str) -> List[int]:
     return: list with relevance scores of results, list of results
     """
     global id
+    # Getting the top 3*k search results for the primary query, to assure that after
+    # the articles that appear on the secondary query are removed, there will still be
+    # k results to perform the metrics analysis 
+    
     s = Search(using="default", index=index).query(query)[:3*k]
     response = s.execute()
+    
+    #creation of secondary query 
     query_astronomy = Match(custom_content={
         "query": query_text + "astronomy"})
     s_astronomy = Search(using="default", index=index).query(query_astronomy)[:k]
@@ -49,6 +55,8 @@ def search(index: str, query: Query, k: int, query_text: str) -> List[int]:
     results_lst = []
     astronomy_docid_set = set()
     ranking_num = 0
+    
+    #creating a set that tracks the doc_ids of the query results for the secondary search (the one including the word astronomy)
     for hit in response_astronomy:
         astronomy_docid_set.add(hit.doc_id)
 
@@ -73,6 +81,7 @@ def search(index: str, query: Query, k: int, query_text: str) -> List[int]:
                 hit.meta.id, hit.annotation, hit.title, sep="\t"
             )
             ranking_num += 1
+            
     metrics = Score.eval(relevance_lst, k)
     print("NDCG", metrics.ndcg, "\nPrecision",metrics.prec, "\nAvg Precision", metrics.ap)
 
