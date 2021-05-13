@@ -76,7 +76,7 @@ Create a dictionary for tf per doc and another one for corpus_tf by running the 
 
 #### Ryan:
 
-### Daniel:
+#### Daniel:
 
 #### Nicole:
 Processing of documents: Tried loading the 50k documents into a shelf that would contain the tf scores of each document, to later calculate the tfidf per token. After multiple tries with building the index, the last attempt resulting in a 36 hour code-run that was stopped by the kernell, I decided to change the approach to load the tf scores into a dictionary and then into a pickle, following the TA's recommendation. 
