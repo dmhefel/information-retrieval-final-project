@@ -31,10 +31,14 @@ The word "new" in the description is defined as occurring in the 1990s. Document
  
 =========================
 # Summary: 
+We took several approaches to the document retrieval task:
 
-SBERT doesn't process the full article, but rather takes the first 500 words. To see if processing the full article would make a difference, the article is segmented into portions and Doc2Vec is trained on the full document. 
+SBERT doesn't process the full article, but rather takes the first 500 or so words. This means that if relevant information is at the end of the document, it is not included. To see if processing the full article would make a difference, the article is segmented into portions, vectors created for each portion, and then the embeddings are averaged among portions.
+
+ We also trained a doc2vec model on the corpus to create document vectors that could be used for retrieval.
+
 Additionally, original articles are pre-processed by deleting the terms that go below a certain threshold, and then tested against the bm25 custom analyzer. 
-_(Provide a brief overview of what your team did. This will be described in more detail in the slide presentation, so you don’t need to go into great detail here.)_
+
 
 =========================
 # Output:
@@ -68,9 +72,11 @@ _Describe how to build your system and run it. A commented script or scripts inc
 
 The Word2Vec, retraining of SBERT and 2-tier search system required the use of some code from hw5. So, we have attached zip files to the projects (pa5_official_nicolezamora.zip and ------), and the files that we modified can be found on the main directory of this repository. 
 
-### Word2Vec
+### doc2Vec
+-run the doc2vec.py file and then use the resulting jl file to build the elastic search index. See the query.py file for how to run queries with elastic search
 
 ### SBERT
+-run the sbert.py file and then use the results jl file to build the elastic search index by adjusting the basedoc to take in the new vector
 
 ### 2-Tier Search System 
 * Base code references hw5: 
@@ -86,9 +92,17 @@ Create a dictionary for tf per doc and another one for corpus_tf by running the 
 
 #### Ryan:
 
-#### Daniel:
+#### Daniel: 
+Wrote and trained the doc2vec and sbert approaches and their evaluation file. List of .py files written by Daniel:
+utils.py
+sbert.py
+doc2vec.py
+query.py
+One version of doc_template.py and index.py
+All files located in the eponymous zip file
+
 
 #### Nicole:
-Processing of documents: Tried loading the 50k documents into a shelf that would contain the tf scores of each document, to later calculate the tfidf per token. After multiple tries with building the index, the last attempt resulting in a 36 hour code-run that was stopped by the kernell, I decided to change the approach to load the tf scores into a dictionary and then into a pickle, following the TA's recommendation. 
+Processing of documents: Tried loading the 50k documents into a shelf that would contain the tf scores of each document, to later calculate the tfidf per token. After multiple tries with building the index, the last attempt resulting in a 36 hour code-run that was stopped by the kernel, I decided to change the approach to load the tf scores into a dictionary and then into a pickle, following the TA's recommendation. 
 Developed the 2-tier search system. 
 
